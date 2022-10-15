@@ -15,6 +15,8 @@ namespace EgoErpArchiver
         public MainWindow()
         {
             InitializeComponent();
+            mi_Xform1.Header = C.ID_XFORM_SRC + " -> " + C.ID_XFORM_DEST; ;
+            mi_Xform2.Header = C.ID_XFORM_DEST + " -> " + C.ID_XFORM_SRC; ;
         }
 
         private void setDirectoryF12016MenuItem_Click(object sender, RoutedEventArgs e)

@@ -32,6 +32,10 @@
                     </MenuItem.Icon>
                 </MenuItem>
             </MenuItem>
+            <MenuItem x:Name="mi_XForm" Header="XForm">
+                <MenuItem x:Name="mi_Xform1" Header="MenuItem" Command="{Binding ResourcesWorkspace.XForm1, Mode=OneWay}" CommandParameter="{Binding SelectedItem, ElementName=resourcesDataGrid}"/>
+                <MenuItem x:Name="mi_Xform2" Header="MenuItem" Command="{Binding ResourcesWorkspace.XForm2, Mode=OneWay}" CommandParameter="{Binding SelectedItem, ElementName=resourcesDataGrid}"/>
+            </MenuItem>
             <MenuItem x:Name="mi_Resources" Header="_Resources">
                 <MenuItem x:Name="mi_Rename" Header="Change Filename" Command="{Binding ResourcesWorkspace.Rename}" CommandParameter="{Binding SelectedItem, ElementName=resourcesDataGrid}"/>
                 <MenuItem x:Name="mi_Repath" Header="Change URI" Command="{Binding ResourcesWorkspace.Repath}" CommandParameter="{Binding SelectedItem, ElementName=resourcesDataGrid}"/>

@@ -47,6 +47,9 @@ namespace EgoErpArchiver.ViewModel
             }
         }
 
+        public RelayCommand XForm1 { get; }
+        public RelayCommand XForm2 { get; }
+
         public RelayCommand Rename { get; }
         public RelayCommand Repath { get; }
         public RelayCommand Export { get; }
@@ -61,6 +64,9 @@ namespace EgoErpArchiver.ViewModel
             resourceExporter = new ErpResourceExporter();
             resources = new ObservableCollection<ErpResourceViewModel>();
             _displayName = "All Resources";
+
+            XForm1 = new RelayCommand(XForm1_Execute, Rename_CanExecute);
+            XForm2 = new RelayCommand(XForm2_Execute, Rename_CanExecute);
 
             Rename = new RelayCommand(Rename_Execute, Rename_CanExecute);
             Repath = new RelayCommand(Repath_Execute, Rename_CanExecute);
@@ -83,6 +89,25 @@ namespace EgoErpArchiver.ViewModel
         public override void ClearData()
         {
             resources.Clear();
+        }
+
+        private void XForm1_Execute(object parameter)
+        {
+            XFormFunc((ErpResourceViewModel)parameter, C.ID_XFORM_SRC, C.ID_XFORM_DEST);
+        }
+
+        private void XForm2_Execute(object parameter)
+        {
+            XFormFunc((ErpResourceViewModel)parameter, C.ID_XFORM_DEST, C.ID_XFORM_SRC);
+        }
+
+        private void XFormFunc(ErpResourceViewModel resView, string src, string dest)
+        {
+            var res = resView.Resource;
+
+            res.Identifier = res.Identifier.Replace(src, dest);
+            mainView.ErpFile.UpdateOffsets();
+            mainView.UpdateWorkspace();
         }
 
         private bool Rename_CanExecute(object parameter)
