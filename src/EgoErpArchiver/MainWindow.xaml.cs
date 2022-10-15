@@ -1,4 +1,5 @@
-﻿using ICSharpCode.AvalonEdit.Folding;
+﻿using EgoErpArchiver.ViewModel;
+using ICSharpCode.AvalonEdit.Folding;
 using Ookii.Dialogs.Wpf;
 using System.Diagnostics;
 using System.Windows;
