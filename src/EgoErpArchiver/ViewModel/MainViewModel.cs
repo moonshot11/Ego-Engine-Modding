@@ -1,4 +1,5 @@
 using EgoEngineLibrary.Archive.Erp;
+using Microsoft.VisualBasic;
 using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
@@ -74,6 +75,7 @@ namespace EgoErpArchiver.ViewModel
             SaveCommand = new RelayCommand(SaveCommand_Execute, SaveCommand_CanExecute);
             MergePreserveCommand = new RelayCommand(MergePreserve_Execute, SaveCommand_CanExecute);
             MergeOverwriteCommand = new RelayCommand(MergeOverwrite_Execute, SaveCommand_CanExecute);
+            ImportFromErp = new RelayCommand(ImportFromErp_Execute, SaveCommand_CanExecute);
 
             if (string.IsNullOrEmpty(Properties.Settings.Default.F12016Dir))
             {
@@ -86,6 +88,7 @@ namespace EgoErpArchiver.ViewModel
         public RelayCommand SaveCommand { get; init; }
         public RelayCommand MergePreserveCommand { get; init; }
         public RelayCommand MergeOverwriteCommand { get; init; }
+        public RelayCommand ImportFromErp { get; init; }
 
         public void ParseCommandLineArguments()
         {
@@ -200,6 +203,65 @@ namespace EgoErpArchiver.ViewModel
                     file.Resources.Add(resource);
                 }
             }
+
+            file.UpdateOffsets();
+            UpdateWorkspace();
+        }
+
+        private void ImportFromErp_Execute(object parameter)
+        {
+            string filename;
+            if (!OpenERPFileDialog(out filename))
+                return;
+
+            // This shouldn't ever happen
+            if (file == null)
+            {
+                MessageBox.Show($"Before importing from another ERP, a file must be opened!",
+                   Properties.Resources.AppTitleLong,
+                   MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
+            ErpFile sourceFile = new ErpFile();
+
+            try
+            {
+                using FileStream fin = File.Open(filename, FileMode.Open, FileAccess.Read, FileShare.Read);
+                Task.Run(() => sourceFile.Read(fin)).Wait();
+            }
+            catch (Exception ex)
+            {
+                // Fail
+                DisplayName = Properties.Resources.AppTitleLong;
+                MessageBox.Show($"The program could not open this file for reading!{NL + NL}{filename}{NL + NL}{ex.Message}",
+                    Properties.Resources.AppTitleLong,
+                    MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+
+            ErpResource targetResource = null;
+
+            while (targetResource == null)
+            {
+                string targetID = Interaction.InputBox(
+                    "Enter the full URI of the file you wish to import:",
+                    "Import from another .erp");
+
+                if (string.IsNullOrWhiteSpace(targetID))
+                    return;
+
+                targetResource = sourceFile.Resources.Find(x => x.Identifier == targetID);
+                if (targetResource == null)
+                    MessageBox.Show("Could not find file:\n" + targetID);
+                else if (file.Resources.Find(x => x.Identifier == targetID) != null)
+                {
+                    MessageBox.Show("This file already exists! Please rename it before importing.");
+                    return;
+                }
+            }
+
+            // By now we should be okay importing this file into the current ERP
+            file.Resources.Add(targetResource);
 
             file.UpdateOffsets();
             UpdateWorkspace();

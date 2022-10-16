@@ -66,6 +66,7 @@
             <MenuItem x:Name="mi_Merge" Header="Merge">
                 <MenuItem x:Name="mi_MrgPreserve" Header="Merge + Preserve" Command="{Binding MergePreserveCommand}"/>
                 <MenuItem x:Name="mi_MrgOverwrite" Header="Merge + Overwrite" Command="{Binding MergeOverwriteCommand}"/>
+                <MenuItem x:Name="mi_ImportFromErp" Header="Import File From Erp" Command="{Binding ImportFromErp}"/>
             </MenuItem>
             <MenuItem x:Name="mi_Settings" Header="_Settings">
                 <MenuItem Header="Game _Directory">
