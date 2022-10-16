@@ -14,10 +14,10 @@ namespace EgoErpArchiver
         /// <summary>
         /// One of the targets for the Identifier transform function.
         /// </summary>
-        public const string ID_XFORM_SRC = "miami";
+        public const string ID_XFORM_SRC = "hanoi";
         /// <summary>
         /// One of the targets for the Identifier transform function.
         /// </summary>
-        public const string ID_XFORM_DEST = "shanghai";
+        public const string ID_XFORM_DEST = "hockenheim";
     }
 }
