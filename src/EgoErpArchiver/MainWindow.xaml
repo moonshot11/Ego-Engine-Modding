@@ -35,6 +35,7 @@
             <MenuItem x:Name="mi_XForm" Header="Quick Rename">
                 <MenuItem x:Name="mi_Xform1" Header="MenuItem" Command="{Binding ResourcesWorkspace.XForm1, Mode=OneWay}" CommandParameter="{Binding SelectedItem, ElementName=resourcesDataGrid}"/>
                 <MenuItem x:Name="mi_Xform2" Header="MenuItem" Command="{Binding ResourcesWorkspace.XForm2, Mode=OneWay}" CommandParameter="{Binding SelectedItem, ElementName=resourcesDataGrid}"/>
+                <MenuItem x:Name="mi_ReplaceAll" Header="Rename All" Command="{Binding ResourcesWorkspace.RenameAll, Mode=OneWay}"/>
             </MenuItem>
             <MenuItem x:Name="mi_Resources" Header="_Resources">
                 <MenuItem x:Name="mi_Rename" Header="Change Filename" Command="{Binding ResourcesWorkspace.Rename}" CommandParameter="{Binding SelectedItem, ElementName=resourcesDataGrid}"/>
