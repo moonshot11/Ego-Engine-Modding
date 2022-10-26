@@ -79,6 +79,11 @@
                     </StackPanel>
                 </MenuItem>
             </MenuItem>
+            <MenuItem x:Name="mi_QuickFunc" Header="Quick Functions">
+                <MenuItem x:Name="mi_QuickF12021" Header="F1 2021">
+                    <MenuItem x:Name="mi_QuickF12021Clothes" Header="Driver Clothes" Command="{Binding ResourcesWorkspace.QuickF12021_DriverClothes, Mode=OneWay}"/>
+                </MenuItem>
+            </MenuItem>
             <MenuItem x:Name="mi_Help" Header="_Help">
                 <MenuItem Header="_Website" Name="websiteMenuItem" Click="websiteMenuItem_Click"></MenuItem>
                 <MenuItem Header="_Source Code" Name="sourceCodeMenuItem" Click="sourceCodeMenuItem_Click"></MenuItem>
