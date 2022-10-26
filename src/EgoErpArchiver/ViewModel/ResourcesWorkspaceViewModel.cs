@@ -1,6 +1,7 @@
 ﻿using EgoEngineLibrary.Archive.Erp;
 using EgoEngineLibrary.Formats.Erp;
 using Ookii.Dialogs.Wpf;
+using Microsoft.Toolkit.HighPerformance.Buffers;
 using Microsoft.VisualBasic;
 using Microsoft.WindowsAPICodePack.Dialogs;
 using System;
@@ -57,6 +58,8 @@ namespace EgoErpArchiver.ViewModel
         public RelayCommand ExportAllFilter { get; }
         public RelayCommand ImportAll { get; }
 
+        public RelayCommand QuickF12021_DriverClothes { get; }
+
         public ResourcesWorkspaceViewModel(MainViewModel mainView)
             : base(mainView)
         {
@@ -72,6 +75,8 @@ namespace EgoErpArchiver.ViewModel
             ExportAll = new RelayCommand(ExportAll_Execute, ExportAll_CanExecute);
             ExportAllFilter = new RelayCommand(ExportAllFilter_Execute, ExportAll_CanExecute);
             ImportAll = new RelayCommand(ImportAll_Execute, ImportAll_CanExecute);
+
+            QuickF12021_DriverClothes = new RelayCommand(QuickF12021_DriverClothes_Execute, ExportAll_CanExecute);
         }
 
         public override void LoadData(object data)
@@ -146,6 +151,65 @@ namespace EgoErpArchiver.ViewModel
             res.Identifier = result;
             mainView.ErpFile.UpdateOffsets();
             mainView.UpdateWorkspace();
+        }
+
+        private void QuickF12021_DriverClothes_Execute(object parameter)
+        {
+            string destDriver = Interaction.InputBox("Enter name of new driver\n(e.g. carlos_sainz-jr)");
+            if (string.IsNullOrWhiteSpace(destDriver))
+                return;
+            string destTeam = Interaction.InputBox("Enter year-team of new driver\n(e.g. 2020-haas)");
+            if (string.IsNullOrWhiteSpace(destTeam))
+                return;
+            string srcDriver = Interaction.InputBox("Enter driver being replaced\n(e.g. carlos_sainz-jr)");
+            if (string.IsNullOrWhiteSpace(srcDriver))
+                return;
+            string srcTeam = Interaction.InputBox("Enter year-team of driver being replaced\n(e.g. 2021-haas)");
+            if (string.IsNullOrWhiteSpace(srcTeam))
+                return;
+
+            string srcFull = srcTeam + '_' + srcDriver;
+            string destFull = destTeam + '_' + destDriver;
+
+            string[] resourceIDs = new string[]
+            {
+                $"eaid://character_package/condition_scene/idf/driver_body_v2_male.emb?context={destFull}",
+                $"eaid://character_package/condition_scene/idf/driver_gloves.emb?context={destFull}",
+
+                $"eaid://character_package/drivers/male/{destFull}/idf/{destDriver}_body_logos.emb?context=default",
+                $"eaid://character_package/drivers/male/{destFull}/idf/{destDriver}_body_logos.idf?model",
+                $"eaid://character_package/drivers/male/{destFull}/idf/{destDriver}_body_logos.idf?render",
+
+                $"eaid://character_package/drivers/male/{destFull}/idf/{destDriver}_glove_logos.emb?context=default",
+                $"eaid://character_package/drivers/male/{destFull}/idf/{destDriver}_glove_logos.idf?model",
+                $"eaid://character_package/drivers/male/{destFull}/idf/{destDriver}_glove_logos.idf?render"
+            };
+
+            // First, validate that all these resources exists
+            foreach (string resID in resourceIDs)
+            {
+                ErpResource result = mainView.ErpFile.Resources.Find(x => x.Identifier == resID);
+                if (result == null)
+                {
+                    MessageBox.Show($"Could not find resource:\n{resID}");
+                    return;
+                }
+            }
+
+            foreach (string resID in resourceIDs)
+            {
+                /// How to handle resource not found?
+                ErpResource resource = mainView.ErpFile.FindResource(resID);
+                string id = resource.Identifier;
+                id = id.Replace(destFull, srcFull);
+                id = id.Replace(destDriver, srcDriver);
+                resource.Identifier = id;
+            }
+
+            mainView.ErpFile.UpdateOffsets();
+            mainView.UpdateWorkspace();
+
+            MessageBox.Show("URIs updated!");
         }
 
         private bool Export_CanExecute(object parameter)
