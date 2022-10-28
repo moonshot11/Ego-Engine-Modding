@@ -66,6 +66,11 @@
                 <MenuItem x:Name="mi_MrgPreserve" Header="Merge + Preserve" Command="{Binding MergePreserveCommand}"/>
                 <MenuItem x:Name="mi_MrgOverwrite" Header="Merge + Overwrite" Command="{Binding MergeOverwriteCommand}"/>
             </MenuItem>
+            <MenuItem x:Name="mi_QuickFunc" Header="F1 2021 Macros">
+                <MenuItem x:Name="mi_ApplyHead" Header="Apply Head (femaleheads.erp)" Command="{Binding ResourcesWorkspace.QuickF12021_ApplyHeadSwap, Mode=OneWay}"/>
+                <MenuItem x:Name="mi_RevertHead" Header="Revert Head (femaleheads.erp)" Command="{Binding ResourcesWorkspace.QuickF12021_RevertHeadSwap, Mode=OneWay}"/>
+                <MenuItem x:Name="mi_QuickF12021Clothes" Header="Suit Swap" Command="{Binding ResourcesWorkspace.QuickF12021_DriverClothes, Mode=OneWay}"/>
+            </MenuItem>
             <MenuItem x:Name="mi_Settings" Header="_Settings">
                 <MenuItem Header="Game _Directory">
                     <MenuItem Header="{Binding Source={x:Static properties:Settings.Default}, Path=F12016Dir}"></MenuItem>
@@ -77,11 +82,6 @@
                         <Button x:Name="cmdUp" x:FieldModifier="private" Margin="0,0,0,0" Content="˄" Width="20" Click="cmdUp_Click" />
                         <Button x:Name="cmdDown" x:FieldModifier="private" Margin="0,0,0,0"  Content="˅" Width="20" Click="cmdDown_Click" />
                     </StackPanel>
-                </MenuItem>
-            </MenuItem>
-            <MenuItem x:Name="mi_QuickFunc" Header="Quick Functions">
-                <MenuItem x:Name="mi_QuickF12021" Header="F1 2021">
-                    <MenuItem x:Name="mi_QuickF12021Clothes" Header="Driver Clothes" Command="{Binding ResourcesWorkspace.QuickF12021_DriverClothes, Mode=OneWay}"/>
                 </MenuItem>
             </MenuItem>
             <MenuItem x:Name="mi_Help" Header="_Help">
