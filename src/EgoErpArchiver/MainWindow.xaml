@@ -43,6 +43,7 @@
                 <MenuItem x:Name="mi_ExportAllFilter" Header="Export All (Filter)" Command="{Binding ResourcesWorkspace.ExportAllFilter}"/>
                 <MenuItem x:Name="mi_ExportAll" Header="E_xport All" Command="{Binding ResourcesWorkspace.ExportAll}"/>
                 <MenuItem x:Name="mi_ImportAll" Header="I_mport All" Command="{Binding ResourcesWorkspace.ImportAll}"/>
+                <MenuItem x:Name="mi_ChangeType" Header="Change Type" Command="{Binding ResourcesWorkspace.ChangeType, Mode=OneWay}" CommandParameter="{Binding ResourcesWorkspace.SelectedItem}"/>
             </MenuItem>
             <MenuItem x:Name="mi_PkgFiles" Header="_Pkg Files">
                 <MenuItem Header="_Export" Command="{Binding Path=PackagesWorkspace.Export}" CommandParameter="{Binding ElementName=packagesListView, Path=SelectedItem}"></MenuItem>
