@@ -24,7 +24,7 @@ namespace EgoEngineLibrary.Formats.Erp
 
                 try
                 {
-                    if (string.IsNullOrWhiteSpace(filter) || resource.FileName.EndsWith(filter))
+                    if (string.IsNullOrWhiteSpace(filter) || resource.Identifier.Contains(filter))
                     {
                         ExportResource(resource, folderPath);
                         progressStatus?.Report("SUCCESS" + Environment.NewLine);
