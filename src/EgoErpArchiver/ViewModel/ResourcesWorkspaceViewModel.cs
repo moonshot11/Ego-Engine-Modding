@@ -57,6 +57,7 @@ namespace EgoErpArchiver.ViewModel
         public RelayCommand ExportAll { get; }
         public RelayCommand ExportAllFilter { get; }
         public RelayCommand ImportAll { get; }
+        public RelayCommand ChangeType { get; }
 
         public RelayCommand QuickF12021_DriverClothes { get; }
         public RelayCommand QuickF12021_ApplyHeadSwap { get; }
@@ -77,6 +78,7 @@ namespace EgoErpArchiver.ViewModel
             ExportAll = new RelayCommand(ExportAll_Execute, ExportAll_CanExecute);
             ExportAllFilter = new RelayCommand(ExportAllFilter_Execute, ExportAll_CanExecute);
             ImportAll = new RelayCommand(ImportAll_Execute, ImportAll_CanExecute);
+            ChangeType = new RelayCommand(ChangeType_Execute, Rename_CanExecute);
 
             QuickF12021_DriverClothes = new RelayCommand(QuickF12021_DriverClothes_Execute, ExportAll_CanExecute);
             QuickF12021_ApplyHeadSwap = new RelayCommand(QuickHeadSwapApply_Execute, ExportAll_CanExecute);
@@ -458,6 +460,17 @@ namespace EgoErpArchiver.ViewModel
                         ex.Message, Properties.Resources.AppTitleLong, MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             }
+        }
+
+        private void ChangeType_Execute(object parameter)
+        {
+            string choice = Interaction.InputBox("Enter new type");
+            if (string.IsNullOrWhiteSpace(choice))
+                return;
+            var resView = (ErpResourceViewModel)parameter;
+            resView.Resource.ResourceType = choice;
+            mainView.ErpFile.UpdateOffsets();
+            mainView.UpdateWorkspace();
         }
     }
 }
