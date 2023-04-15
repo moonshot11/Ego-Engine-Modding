@@ -2,6 +2,7 @@
 using EgoEngineLibrary.Xml;
 using Microsoft.Win32;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Threading.Tasks;
@@ -66,6 +67,7 @@ namespace EgoErpArchiver.ViewModel
         public override void LoadData(object data)
         {
             ClearData();
+            List<ErpXmlFileViewModel> searchResults = new();
             foreach (var resView in ((ResourcesWorkspaceViewModel)data).Resources)
             {
                 var resource = resView.Resource;
@@ -76,7 +78,7 @@ namespace EgoErpArchiver.ViewModel
                         using var ds = fragment.GetDecompressDataStream(true);
                         if (XmlFile.IsXmlFile(ds))
                         {
-                            XmlFiles.Add(new ErpXmlFileViewModel(resView, fragment));
+                            searchResults.Add(new ErpXmlFileViewModel(resView, fragment));
                         }
                     }
                     catch
@@ -85,6 +87,9 @@ namespace EgoErpArchiver.ViewModel
                     }
                 }
             }
+            searchResults.Sort((x, y) => string.Compare(x.DisplayName, y.DisplayName));
+            foreach (var item in searchResults)
+                XmlFiles.Add(item);
             DisplayName = "XML Files " + xmlFiles.Count;
         }
 
