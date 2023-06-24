@@ -3,7 +3,6 @@ using EgoEngineLibrary.Formats.Erp;
 using Ookii.Dialogs.Wpf;
 using Microsoft.Toolkit.HighPerformance.Buffers;
 using Microsoft.VisualBasic;
-using Microsoft.WindowsAPICodePack.Dialogs;
 using System;
 using System.Collections.ObjectModel;
 using System.IO;
@@ -389,9 +388,10 @@ namespace EgoErpArchiver.ViewModel
                         DataContext = progDialogVM
                     };
 
-                    var task = Task.Run(() => resourceExporter.Export(mainView.ErpFile, dlg.SelectedPath, progDialogVM.ProgressStatus, progDialogVM.ProgressPercentage, filter: filter));
+                    var task = Task.Run(() => resourceExporter.Export(mainView.ErpFile, dlg.SelectedPath,
                         progDialogVM.ProgressStatus, progDialogVM.ProgressPercentage,
                         filter: filter));
+
                     progDialog.ShowDialog();
                     task.Wait();
                 }

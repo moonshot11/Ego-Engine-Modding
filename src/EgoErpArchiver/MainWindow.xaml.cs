@@ -24,7 +24,6 @@ namespace EgoErpArchiver
                 Description = "Select the location of your game:",
                 Multiselect = false
             };
-            };
 
             if (dlg.ShowDialog() == true)
             {
