@@ -59,6 +59,7 @@ namespace EgoErpArchiver.ViewModel
         public RelayCommand ImportAll { get; }
         public RelayCommand ChangeType { get; }
         public RelayCommand AddFragment { get; }
+        public RelayCommand RemoveFragment { get; }
 
         public RelayCommand QuickF12021_DriverClothes { get; }
         public RelayCommand QuickF12021_ApplyHeadSwap { get; }
@@ -81,6 +82,7 @@ namespace EgoErpArchiver.ViewModel
             ImportAll = new RelayCommand(ImportAll_Execute, ImportAll_CanExecute);
             ChangeType = new RelayCommand(ChangeType_Execute, Rename_CanExecute);
             AddFragment = new RelayCommand(AddFragment_Execute, Rename_CanExecute);
+            RemoveFragment = new RelayCommand(RemoveFragment_Execute, Rename_CanExecute);
 
             QuickF12021_DriverClothes = new RelayCommand(QuickF12021_DriverClothes_Execute, ExportAll_CanExecute);
             QuickF12021_ApplyHeadSwap = new RelayCommand(QuickHeadSwapApply_Execute, ExportAll_CanExecute);
@@ -151,6 +153,19 @@ namespace EgoErpArchiver.ViewModel
             res.Fragments.Add( res.Fragments.Last() );
             mainView.ErpFile.UpdateOffsets();
             mainView.UpdateWorkspace();
+        }
+
+        private void RemoveFragment_Execute(object parameter)
+        {
+            ErpResourceViewModel resView = (ErpResourceViewModel)parameter;
+            ErpResource res = resView.Resource;
+
+            if (res.Fragments.Count > 1)
+            {
+                res.Fragments.RemoveAt(res.Fragments.Count-1);
+                mainView.ErpFile.UpdateOffsets();
+                mainView.UpdateWorkspace();
+            }
         }
 
         private void Repath_Execute(object parameter)

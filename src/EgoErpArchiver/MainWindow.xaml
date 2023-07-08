@@ -41,6 +41,7 @@
             <MenuItem x:Name="mi_Resources" Header="_Resources">
                 <MenuItem x:Name="mi_Fragments" Header="Fragments">
                     <MenuItem x:Name="mi_AddFragment" Header="Add Fragment" Command="{Binding ResourcesWorkspace.AddFragment, Mode=OneWay}" CommandParameter="{Binding ResourcesWorkspace.SelectedItem}"/>
+                    <MenuItem x:Name="mi_RemoveFragment" Header="Remove Fragment" Command="{Binding ResourcesWorkspace.RemoveFragment, Mode=OneWay}" CommandParameter="{Binding ResourcesWorkspace.SelectedItem}"/>
                 </MenuItem>
                 <MenuItem x:Name="mi_Export" Header="_Export" Command="{Binding ResourcesWorkspace.Export}" CommandParameter="{Binding SelectedItem, ElementName=resourcesDataGrid}"/>
                 <MenuItem x:Name="mi_Import" Header="_Import" Command="{Binding ResourcesWorkspace.Import}" CommandParameter="{Binding SelectedItem, ElementName=resourcesDataGrid}"/>
