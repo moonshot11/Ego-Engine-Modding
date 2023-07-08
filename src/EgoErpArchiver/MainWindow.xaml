@@ -39,6 +39,9 @@
                 <MenuItem x:Name="mi_RenameAll" Header="Rename All" Command="{Binding ResourcesWorkspace.RenameAll, Mode=OneWay}"/>
             </MenuItem>
             <MenuItem x:Name="mi_Resources" Header="_Resources">
+                <MenuItem x:Name="mi_Fragments" Header="Fragments">
+                    <MenuItem x:Name="mi_AddFragment" Header="Add Fragment" Command="{Binding ResourcesWorkspace.AddFragment, Mode=OneWay}" CommandParameter="{Binding ResourcesWorkspace.SelectedItem}"/>
+                </MenuItem>
                 <MenuItem x:Name="mi_Export" Header="_Export" Command="{Binding ResourcesWorkspace.Export}" CommandParameter="{Binding SelectedItem, ElementName=resourcesDataGrid}"/>
                 <MenuItem x:Name="mi_Import" Header="_Import" Command="{Binding ResourcesWorkspace.Import}" CommandParameter="{Binding SelectedItem, ElementName=resourcesDataGrid}"/>
                 <MenuItem x:Name="mi_ExportAllFilter" Header="Export All (Filter)" Command="{Binding ResourcesWorkspace.ExportAllFilter}"/>

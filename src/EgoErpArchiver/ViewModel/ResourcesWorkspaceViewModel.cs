@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Xml.XPath;
+using System.Linq;
 
 namespace EgoErpArchiver.ViewModel
 {
@@ -57,6 +58,7 @@ namespace EgoErpArchiver.ViewModel
         public RelayCommand ExportAllFilter { get; }
         public RelayCommand ImportAll { get; }
         public RelayCommand ChangeType { get; }
+        public RelayCommand AddFragment { get; }
 
         public RelayCommand QuickF12021_DriverClothes { get; }
         public RelayCommand QuickF12021_ApplyHeadSwap { get; }
@@ -78,6 +80,7 @@ namespace EgoErpArchiver.ViewModel
             ExportAllFilter = new RelayCommand(ExportAllFilter_Execute, ExportAll_CanExecute);
             ImportAll = new RelayCommand(ImportAll_Execute, ImportAll_CanExecute);
             ChangeType = new RelayCommand(ChangeType_Execute, Rename_CanExecute);
+            AddFragment = new RelayCommand(AddFragment_Execute, Rename_CanExecute);
 
             QuickF12021_DriverClothes = new RelayCommand(QuickF12021_DriverClothes_Execute, ExportAll_CanExecute);
             QuickF12021_ApplyHeadSwap = new RelayCommand(QuickHeadSwapApply_Execute, ExportAll_CanExecute);
@@ -136,6 +139,16 @@ namespace EgoErpArchiver.ViewModel
                 return;
 
             res.FileName = result;
+            mainView.ErpFile.UpdateOffsets();
+            mainView.UpdateWorkspace();
+        }
+
+        private void AddFragment_Execute(object parameter)
+        {
+            ErpResourceViewModel resView = (ErpResourceViewModel)parameter;
+            ErpResource res = resView.Resource;
+
+            res.Fragments.Add( res.Fragments.Last() );
             mainView.ErpFile.UpdateOffsets();
             mainView.UpdateWorkspace();
         }
