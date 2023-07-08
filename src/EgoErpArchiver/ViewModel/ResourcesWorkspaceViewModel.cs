@@ -63,10 +63,6 @@ namespace EgoErpArchiver.ViewModel
         public RelayCommand AddFragment { get; }
         public RelayCommand RemoveFragment { get; }
 
-        public RelayCommand QuickF12021_DriverClothes { get; }
-        public RelayCommand QuickF12021_ApplyHeadSwap { get; }
-        public RelayCommand QuickF12021_RevertHeadSwap { get; }
-
         public ResourcesWorkspaceViewModel(MainViewModel mainView)
             : base(mainView)
         {
@@ -87,10 +83,6 @@ namespace EgoErpArchiver.ViewModel
             RemoveResource = new RelayCommand(RemoveResource_Execute, Rename_CanExecute);
             AddFragment = new RelayCommand(AddFragment_Execute, Rename_CanExecute);
             RemoveFragment = new RelayCommand(RemoveFragment_Execute, Rename_CanExecute);
-
-            QuickF12021_DriverClothes = new RelayCommand(QuickF12021_DriverClothes_Execute, ExportAll_CanExecute);
-            QuickF12021_ApplyHeadSwap = new RelayCommand(QuickHeadSwapApply_Execute, ExportAll_CanExecute);
-            QuickF12021_RevertHeadSwap = new RelayCommand(QuickHeadSwapRevert_Execute, ExportAll_CanExecute);
         }
 
         public override void LoadData(object data)
@@ -198,142 +190,6 @@ namespace EgoErpArchiver.ViewModel
             res.Identifier = result;
             mainView.ErpFile.UpdateOffsets();
             mainView.UpdateWorkspace();
-        }
-
-        private void QuickHeadSwapApply_Execute(object parameter)
-        {
-            GenderHeadSwap(forward: true);
-        }
-
-        private void QuickHeadSwapRevert_Execute(object parameter)
-        {
-            GenderHeadSwap(forward: false);
-        }
-
-        private void GenderHeadSwap(bool forward=true)
-        {
-            string maleDriver = Interaction.InputBox("Enter name of male driver\n(e.g. carlos_sainz-jr)");
-            if (string.IsNullOrWhiteSpace(maleDriver))
-                return;
-            string femaleDriver = Interaction.InputBox("Enter name of female driver\n(e.g. ginny_gladwell)");
-            if (string.IsNullOrWhiteSpace(femaleDriver))
-                return;
-
-            var resourceIDs = new (string male, string female)[]
-            {
-                (
-                    $"eaid://character_package/heads/male_driver/{maleDriver}/idf/{maleDriver}_rig_head_morph_v1.emb?context=default",
-                    $"eaid://character_package/heads/female_generic/{femaleDriver}/idf/{femaleDriver}_rig_head_morph_v2.emb?context=default"
-                ),
-
-                (
-                    $"eaid://character_package/heads/male_driver/{maleDriver}/idf/{maleDriver}_rig_head_morph_v1.idf?context=animset",
-                    $"eaid://character_package/heads/female_generic/{femaleDriver}/idf/{femaleDriver}_rig_head_morph_v2.idf?context=animset"
-                ),
-
-                (
-                    $"eaid://character_package/heads/male_driver/{maleDriver}/idf/{maleDriver}_rig_head_morph_v1.idf?model",
-                    $"eaid://character_package/heads/female_generic/{femaleDriver}/idf/{femaleDriver}_rig_head_morph_v2.idf?model"
-                ),
-
-                (
-                    $"eaid://character_package/heads/male_driver/{maleDriver}/idf/{maleDriver}_rig_head_morph_v1.idf?render",
-                    $"eaid://character_package/heads/female_generic/{femaleDriver}/idf/{femaleDriver}_rig_head_morph_v2.idf?render"
-                )
-            };
-
-            // First, validate that source resources exist
-            foreach (var pair in resourceIDs)
-            {
-                string src = forward ? pair.female : pair.male;
-                string dest = forward ? pair.male : pair.female;
-
-                ErpResource result = mainView.ErpFile.Resources.Find(x => x.Identifier == src);
-                if (result == null)
-                {
-                    MessageBox.Show($"Could not find resource:\n{src}");
-                    return;
-                }
-
-                result = mainView.ErpFile.Resources.Find(x => x.Identifier == dest);
-                if (result != null)
-                {
-                    MessageBox.Show($"Destination file already exists:\n{dest}");
-                    return;
-                }
-            }
-
-            foreach (var pair in resourceIDs)
-            {
-                string src = forward ? pair.female : pair.male;
-                string dest = forward ? pair.male : pair.female;
-                ErpResource resource = mainView.ErpFile.FindResource(src);
-                resource.Identifier = dest;
-            }
-
-            mainView.ErpFile.UpdateOffsets();
-            mainView.UpdateWorkspace();
-
-            MessageBox.Show("URIs updated!");
-        }
-
-        private void QuickF12021_DriverClothes_Execute(object parameter)
-        {
-            string destDriver = Interaction.InputBox("Enter name of new driver\n(e.g. carlos_sainz-jr)");
-            if (string.IsNullOrWhiteSpace(destDriver))
-                return;
-            string destTeam = Interaction.InputBox("Enter year-team of new driver\n(e.g. 2020-haas)");
-            if (string.IsNullOrWhiteSpace(destTeam))
-                return;
-            string srcDriver = Interaction.InputBox("Enter driver being replaced\n(e.g. carlos_sainz-jr)");
-            if (string.IsNullOrWhiteSpace(srcDriver))
-                return;
-            string srcTeam = Interaction.InputBox("Enter year-team of driver being replaced\n(e.g. 2021-haas)");
-            if (string.IsNullOrWhiteSpace(srcTeam))
-                return;
-
-            string srcFull = srcTeam + '_' + srcDriver;
-            string destFull = destTeam + '_' + destDriver;
-
-            string[] resourceIDs = new string[]
-            {
-                $"eaid://character_package/condition_scene/idf/driver_body_v2_male.emb?context={destFull}",
-                $"eaid://character_package/condition_scene/idf/driver_gloves.emb?context={destFull}",
-
-                $"eaid://character_package/drivers/male/{destFull}/idf/{destDriver}_body_logos.emb?context=default",
-                $"eaid://character_package/drivers/male/{destFull}/idf/{destDriver}_body_logos.idf?model",
-                $"eaid://character_package/drivers/male/{destFull}/idf/{destDriver}_body_logos.idf?render",
-
-                $"eaid://character_package/drivers/male/{destFull}/idf/{destDriver}_glove_logos.emb?context=default",
-                $"eaid://character_package/drivers/male/{destFull}/idf/{destDriver}_glove_logos.idf?model",
-                $"eaid://character_package/drivers/male/{destFull}/idf/{destDriver}_glove_logos.idf?render"
-            };
-
-            // First, validate that all these resources exists
-            foreach (string resID in resourceIDs)
-            {
-                ErpResource result = mainView.ErpFile.Resources.Find(x => x.Identifier == resID);
-                if (result == null)
-                {
-                    MessageBox.Show($"Could not find resource:\n{resID}");
-                    return;
-                }
-            }
-
-            foreach (string resID in resourceIDs)
-            {
-                /// How to handle resource not found?
-                ErpResource resource = mainView.ErpFile.FindResource(resID);
-                string id = resource.Identifier;
-                id = id.Replace(destFull, srcFull);
-                id = id.Replace(destDriver, srcDriver);
-                resource.Identifier = id;
-            }
-
-            mainView.ErpFile.UpdateOffsets();
-            mainView.UpdateWorkspace();
-
-            MessageBox.Show("URIs updated!");
         }
 
         private bool Export_CanExecute(object parameter)
