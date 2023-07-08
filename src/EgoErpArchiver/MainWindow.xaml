@@ -40,6 +40,7 @@
             </MenuItem>
             <MenuItem x:Name="mi_Resources" Header="_Resources">
                 <MenuItem x:Name="mi_Data" Header="Data">
+                    <MenuItem x:Name="mi_DuplicateResource" Header="Duplicate Resource" Command="{Binding ResourcesWorkspace.DuplicateResource, Mode=OneWay}" CommandParameter="{Binding ResourcesWorkspace.SelectedItem}"/>
                     <MenuItem x:Name="mi_RemoveResource" Header="Remove Resource" Command="{Binding ResourcesWorkspace.RemoveResource, Mode=OneWay}" CommandParameter="{Binding ResourcesWorkspace.SelectedItem}"/>
                     <MenuItem x:Name="mi_AddFragment" Header="Add Fragment" Command="{Binding ResourcesWorkspace.AddFragment, Mode=OneWay}" CommandParameter="{Binding ResourcesWorkspace.SelectedItem}"/>
                     <MenuItem x:Name="mi_RemoveFragment" Header="Remove Fragment" Command="{Binding ResourcesWorkspace.RemoveFragment, Mode=OneWay}" CommandParameter="{Binding ResourcesWorkspace.SelectedItem}"/>
