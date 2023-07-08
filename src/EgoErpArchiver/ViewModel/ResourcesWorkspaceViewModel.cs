@@ -58,6 +58,8 @@ namespace EgoErpArchiver.ViewModel
         public RelayCommand ExportAllFilter { get; }
         public RelayCommand ImportAll { get; }
         public RelayCommand ChangeType { get; }
+
+        public RelayCommand RemoveResource { get; }
         public RelayCommand AddFragment { get; }
         public RelayCommand RemoveFragment { get; }
 
@@ -81,6 +83,8 @@ namespace EgoErpArchiver.ViewModel
             ExportAllFilter = new RelayCommand(ExportAllFilter_Execute, ExportAll_CanExecute);
             ImportAll = new RelayCommand(ImportAll_Execute, ImportAll_CanExecute);
             ChangeType = new RelayCommand(ChangeType_Execute, Rename_CanExecute);
+
+            RemoveResource = new RelayCommand(RemoveResource_Execute, Rename_CanExecute);
             AddFragment = new RelayCommand(AddFragment_Execute, Rename_CanExecute);
             RemoveFragment = new RelayCommand(RemoveFragment_Execute, Rename_CanExecute);
 
@@ -141,6 +145,16 @@ namespace EgoErpArchiver.ViewModel
                 return;
 
             res.FileName = result;
+            mainView.ErpFile.UpdateOffsets();
+            mainView.UpdateWorkspace();
+        }
+
+        private void RemoveResource_Execute(object parameter)
+        {
+            ErpResourceViewModel resView = (ErpResourceViewModel)parameter;
+            ErpResource res = resView.Resource;
+
+            mainView.ErpFile.Resources.Remove(res);
             mainView.ErpFile.UpdateOffsets();
             mainView.UpdateWorkspace();
         }

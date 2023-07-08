@@ -39,7 +39,8 @@
                 <MenuItem x:Name="mi_RenameAll" Header="Rename All" Command="{Binding ResourcesWorkspace.RenameAll, Mode=OneWay}"/>
             </MenuItem>
             <MenuItem x:Name="mi_Resources" Header="_Resources">
-                <MenuItem x:Name="mi_Fragments" Header="Fragments">
+                <MenuItem x:Name="mi_Data" Header="Data">
+                    <MenuItem x:Name="mi_RemoveResource" Header="Remove Resource" Command="{Binding ResourcesWorkspace.RemoveResource, Mode=OneWay}" CommandParameter="{Binding ResourcesWorkspace.SelectedItem}"/>
                     <MenuItem x:Name="mi_AddFragment" Header="Add Fragment" Command="{Binding ResourcesWorkspace.AddFragment, Mode=OneWay}" CommandParameter="{Binding ResourcesWorkspace.SelectedItem}"/>
                     <MenuItem x:Name="mi_RemoveFragment" Header="Remove Fragment" Command="{Binding ResourcesWorkspace.RemoveFragment, Mode=OneWay}" CommandParameter="{Binding ResourcesWorkspace.SelectedItem}"/>
                 </MenuItem>
