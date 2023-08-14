@@ -15,6 +15,7 @@
         <KeyBinding Key="O" Modifiers="Control" Command="{Binding Path=OpenCommand}"></KeyBinding>
         <KeyBinding Key="S" Modifiers="Control" Command="{Binding Path=SaveCommand}"></KeyBinding>
         <KeyBinding Key="F2" Command="{Binding ResourcesWorkspace.Rename}" CommandParameter="{Binding SelectedItem, ElementName=resourcesDataGrid}"></KeyBinding>
+        <KeyBinding Key="F2" Modifiers="Shift" Command="{Binding ResourcesWorkspace.Repath}" CommandParameter="{Binding SelectedItem, ElementName=resourcesDataGrid}"></KeyBinding>
         <KeyBinding Key="Right" Modifiers="Alt" Command="{Binding ElementName=texListView, Path=SelectedItem.TexArrayIndexUpCommand}"></KeyBinding>
         <KeyBinding Key="Left" Modifiers="Alt" Command="{Binding ElementName=texListView, Path=SelectedItem.TexArrayIndexDownCommand}"></KeyBinding>
     </Window.InputBindings>
@@ -35,7 +36,7 @@
             </MenuItem>
             <MenuItem x:Name="mi_XForm" Header="Rename">
                 <MenuItem x:Name="mi_Rename" Header="Change Filename" Command="{Binding ResourcesWorkspace.Rename}" CommandParameter="{Binding SelectedItem, ElementName=resourcesDataGrid}" InputGestureText="F2"/>
-                <MenuItem x:Name="mi_Repath" Header="Change URI" Command="{Binding ResourcesWorkspace.Repath}" CommandParameter="{Binding SelectedItem, ElementName=resourcesDataGrid}"/>
+                <MenuItem x:Name="mi_Repath" Header="Change URI" Command="{Binding ResourcesWorkspace.Repath}" CommandParameter="{Binding SelectedItem, ElementName=resourcesDataGrid}" InputGestureText="Shift+F2"/>
                 <MenuItem x:Name="mi_RenameAll" Header="Rename All" Command="{Binding ResourcesWorkspace.RenameAll, Mode=OneWay}"/>
             </MenuItem>
             <MenuItem x:Name="mi_Resources" Header="_Resources">
