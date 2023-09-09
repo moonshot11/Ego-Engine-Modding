@@ -103,16 +103,16 @@ namespace EgoErpArchiver.ViewModel
 
         private void RenameAll_Execute(object parameter)
         {
-            string src = Interaction.InputBox("Enter string to find:");
-            if (string.IsNullOrWhiteSpace(src))
+            string oldString = Interaction.InputBox("Enter string to find:");
+            if (string.IsNullOrWhiteSpace(oldString))
                 return;
 
-            string dest = Interaction.InputBox("Enter string to replace:");
-            if (string.IsNullOrWhiteSpace(dest))
+            string newString = Interaction.InputBox("Enter new string:");
+            if (string.IsNullOrWhiteSpace(newString))
                 return;
 
             foreach (ErpResource res in mainView.ErpFile.Resources)
-                res.Identifier = res.Identifier.Replace(src, dest);
+                res.Identifier = res.Identifier.Replace(oldString, newString);
 
             mainView.ErpFile.UpdateOffsets();
             mainView.UpdateWorkspace();
@@ -288,8 +288,7 @@ namespace EgoErpArchiver.ViewModel
             if (promptFilter)
             {
                 filter = Interaction.InputBox(
-                    Prompt: "Enter a suffix filter, e.g. '.material' for all files\n" +
-                    "with the .material extension",
+                    Prompt: "Enter a regular expression to filter URIs:\n",
                     Title: "Filter");
                 if (string.IsNullOrWhiteSpace(filter))
                     return;
@@ -389,10 +388,11 @@ namespace EgoErpArchiver.ViewModel
 
         private void ChangeType_Execute(object parameter)
         {
-            string choice = Interaction.InputBox("Enter new type");
+            var resView = (ErpResourceViewModel)parameter;
+            string choice = Interaction.InputBox("Enter new type",
+                DefaultResponse: resView.Resource.ResourceType);
             if (string.IsNullOrWhiteSpace(choice))
                 return;
-            var resView = (ErpResourceViewModel)parameter;
             resView.Resource.ResourceType = choice;
             mainView.ErpFile.UpdateOffsets();
             mainView.UpdateWorkspace();

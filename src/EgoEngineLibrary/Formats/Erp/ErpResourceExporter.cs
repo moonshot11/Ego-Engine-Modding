@@ -1,6 +1,7 @@
 ﻿using EgoEngineLibrary.Archive.Erp;
 using System;
 using System.IO;
+using System.Text.RegularExpressions;
 
 namespace EgoEngineLibrary.Formats.Erp
 {
@@ -24,7 +25,7 @@ namespace EgoEngineLibrary.Formats.Erp
 
                 try
                 {
-                    if (string.IsNullOrWhiteSpace(filter) || resource.Identifier.Contains(filter))
+                    if (string.IsNullOrWhiteSpace(filter) || Regex.Match(resource.FileName, filter).Success)
                     {
                         ExportResource(resource, folderPath);
                         progressStatus?.Report("SUCCESS" + Environment.NewLine);

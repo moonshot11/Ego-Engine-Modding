@@ -57,7 +57,7 @@ namespace EgoErpArchiver
 
         private void sourceCodeMenuItem_Click(object sender, RoutedEventArgs e)
         {
-            _ = Process.Start(new ProcessStartInfo("https://petar.page/l/ego-eea-code") { UseShellExecute = true });
+            _ = Process.Start(new ProcessStartInfo("https://github.com/EgoEngineModding/Ego-Engine-Modding") { UseShellExecute = true });
         }
 
         private void moddingDiscordMenuItem_Click(object sender, RoutedEventArgs e)

@@ -37,21 +37,22 @@
             <MenuItem x:Name="mi_XForm" Header="Rename">
                 <MenuItem x:Name="mi_Rename" Header="Change Filename" Command="{Binding ResourcesWorkspace.Rename}" CommandParameter="{Binding SelectedItem, ElementName=resourcesDataGrid}" InputGestureText="F2"/>
                 <MenuItem x:Name="mi_Repath" Header="Change URI" Command="{Binding ResourcesWorkspace.Repath}" CommandParameter="{Binding SelectedItem, ElementName=resourcesDataGrid}" InputGestureText="Shift+F2"/>
-                <MenuItem x:Name="mi_RenameAll" Header="Rename All" Command="{Binding ResourcesWorkspace.RenameAll, Mode=OneWay}"/>
+                <MenuItem x:Name="mi_ChangeType" Header="Change Type" Command="{Binding ResourcesWorkspace.ChangeType, Mode=OneWay}" CommandParameter="{Binding ResourcesWorkspace.SelectedItem}"/>
+                <MenuItem x:Name="mi_RenameAll" Header="Rename All URIs" Command="{Binding ResourcesWorkspace.RenameAll, Mode=OneWay}"/>
             </MenuItem>
             <MenuItem x:Name="mi_Resources" Header="_Resources">
                 <MenuItem x:Name="mi_Data" Header="Data">
-                    <MenuItem x:Name="mi_DuplicateResource" Header="Duplicate Resource" Command="{Binding ResourcesWorkspace.DuplicateResource, Mode=OneWay}" CommandParameter="{Binding ResourcesWorkspace.SelectedItem}"/>
-                    <MenuItem x:Name="mi_RemoveResource" Header="Remove Resource" Command="{Binding ResourcesWorkspace.RemoveResource, Mode=OneWay}" CommandParameter="{Binding ResourcesWorkspace.SelectedItem}"/>
-                    <MenuItem x:Name="mi_AddFragment" Header="Add Fragment" Command="{Binding ResourcesWorkspace.AddFragment, Mode=OneWay}" CommandParameter="{Binding ResourcesWorkspace.SelectedItem}"/>
-                    <MenuItem x:Name="mi_RemoveFragment" Header="Remove Fragment" Command="{Binding ResourcesWorkspace.RemoveFragment, Mode=OneWay}" CommandParameter="{Binding ResourcesWorkspace.SelectedItem}"/>
+                    <MenuItem x:Name="mi_DuplicateResource" Header="Duplicate Selected Resource" Command="{Binding ResourcesWorkspace.DuplicateResource, Mode=OneWay}" CommandParameter="{Binding ResourcesWorkspace.SelectedItem}"/>
+                    <MenuItem x:Name="mi_RemoveResource" Header="Remove Selected Resource (cannot undo!)" Command="{Binding ResourcesWorkspace.RemoveResource, Mode=OneWay}" CommandParameter="{Binding ResourcesWorkspace.SelectedItem}"/>
+                    <Separator/>
+                    <MenuItem x:Name="mi_AddFragment" Header="Add Dummy Fragment to Selected Resource" Command="{Binding ResourcesWorkspace.AddFragment, Mode=OneWay}" CommandParameter="{Binding ResourcesWorkspace.SelectedItem}"/>
+                    <MenuItem x:Name="mi_RemoveFragment" Header="Remove Last Fragment from Selected Resource (cannot undo!)" Command="{Binding ResourcesWorkspace.RemoveFragment, Mode=OneWay}" CommandParameter="{Binding ResourcesWorkspace.SelectedItem}"/>
                 </MenuItem>
                 <MenuItem x:Name="mi_Export" Header="_Export" Command="{Binding ResourcesWorkspace.Export}" CommandParameter="{Binding SelectedItem, ElementName=resourcesDataGrid}"/>
                 <MenuItem x:Name="mi_Import" Header="_Import" Command="{Binding ResourcesWorkspace.Import}" CommandParameter="{Binding SelectedItem, ElementName=resourcesDataGrid}"/>
-                <MenuItem x:Name="mi_ExportAllFilter" Header="Export All (Filter)" Command="{Binding ResourcesWorkspace.ExportAllFilter}"/>
                 <MenuItem x:Name="mi_ExportAll" Header="E_xport All" Command="{Binding ResourcesWorkspace.ExportAll}"/>
+                <MenuItem x:Name="mi_ExportAllFilter" Header="Export All (Regex Filter)" Command="{Binding ResourcesWorkspace.ExportAllFilter}"/>
                 <MenuItem x:Name="mi_ImportAll" Header="I_mport All" Command="{Binding ResourcesWorkspace.ImportAll}"/>
-                <MenuItem x:Name="mi_ChangeType" Header="Change Type" Command="{Binding ResourcesWorkspace.ChangeType, Mode=OneWay}" CommandParameter="{Binding ResourcesWorkspace.SelectedItem}"/>
             </MenuItem>
             <MenuItem x:Name="mi_PkgFiles" Header="_Pkg Files">
                 <MenuItem Header="_Export" Command="{Binding Path=PackagesWorkspace.Export}" CommandParameter="{Binding ElementName=packagesListView, Path=SelectedItem}"></MenuItem>
