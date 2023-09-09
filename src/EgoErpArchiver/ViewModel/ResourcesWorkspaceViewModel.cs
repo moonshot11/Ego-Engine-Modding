@@ -146,7 +146,19 @@ namespace EgoErpArchiver.ViewModel
         private void DuplicateResource_Execute(object parameter)
         {
             ErpResourceViewModel resView = (ErpResourceViewModel)parameter;
-            ErpResource res = resView.Resource;
+            ErpResource old = resView.Resource;
+            ErpResource res = new(old.ParentFile);
+
+            foreach (ErpFragment oldFrag in old.Fragments)
+            {
+                ErpFragment frag = new(res.ParentFile);
+                frag.SetData(oldFrag.GetDataArray(true), compress: true);
+                res.Fragments.Add(frag);
+            }
+
+            res.Identifier = old.Identifier;
+            res.FileName = old.FileName;
+            res.ResourceType = old.ResourceType;
 
             mainView.ErpFile.Resources.Add(res);
             mainView.ErpFile.UpdateOffsets();
@@ -168,7 +180,10 @@ namespace EgoErpArchiver.ViewModel
             ErpResourceViewModel resView = (ErpResourceViewModel)parameter;
             ErpResource res = resView.Resource;
 
-            res.Fragments.Add( res.Fragments.Last() );
+            ErpFragment data = new ErpFragment(res.ParentFile);
+            data.SetData( res.Fragments.Last().GetDataArray(true), compress: true );
+
+            res.Fragments.Add(data);
             mainView.ErpFile.UpdateOffsets();
             mainView.UpdateWorkspace();
         }
